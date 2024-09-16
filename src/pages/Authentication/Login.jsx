@@ -11,14 +11,9 @@ const LoginPage = () => {
   const dispatch = ({ obj }) => {
     console.log("dispatch");
   };
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Add your login logic here
-    console.log("Login form submitted");
-  };
+
   const user = "rajdips834";
 
   const EmailAuth = () => {
@@ -38,7 +33,6 @@ const LoginPage = () => {
               email: email,
               phoneNumber: null,
             };
-
             dispatch({
               type: "SET_USER",
               user: user,
@@ -78,7 +72,7 @@ const LoginPage = () => {
           <Typography variant="h5" align="center" gutterBottom>
             Login
           </Typography>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={EmailAuth}>
             <TextField
               label="Email"
               placeholder="Enter email"
@@ -102,6 +96,24 @@ const LoginPage = () => {
               style={{ marginTop: 20 }}
             >
               Login
+            </Button>
+            <Typography
+              variant="body2"
+              align="center"
+              gutterBottom
+              style={{ marginTop: 20 }}
+            >
+              New here?
+            </Typography>
+            <Button
+              type="submit"
+              color="primary"
+              variant="outlined"
+              fullWidth
+              onClick={() => navigate("/signup")}
+              style={{ marginTop: 20 }}
+            >
+              Register
             </Button>
           </form>
         </Paper>
