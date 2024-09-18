@@ -6,15 +6,16 @@ import { initialState } from "./context/initialState";
 import reducer from "./context/reducer";
 import "./index.css";
 import App from "./App";
-import { ToastContainer } from "react-toastify";
+import { Provider } from "react-redux";
+import store from "./state/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
-      <StateProvider initialState={initialState} reducer={reducer}>
-        <ToastContainer /> <App />
-      </StateProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Router>
   </React.StrictMode>
 );

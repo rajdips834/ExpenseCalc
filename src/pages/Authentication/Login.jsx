@@ -6,12 +6,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAILSIGNIN } from "../../firebase/index";
 import { useStateValue } from "../../context/StateProvider";
+import { actionCreators } from "../../state";
+import { useDispatch, useSelector } from "react-redux";
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [{ user }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.auth.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const loggedIn = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const EmailAuth = () => {
     if (!user) {
       if (email.length > 0 && password.length > 0) {
@@ -30,15 +33,11 @@ const LoginPage = () => {
               phoneNumber: null,
             };
 
-            dispatch({
-              type: "SET_USER",
-              user: user,
-            });
+            dispatch(actionCreators.login(user));
             localStorage.setItem("user", JSON.stringify(user));
             navigate("/");
           })
           .catch((error) => {
-            // const errorCode = error.code;
             const errorMessage = error.message;
             toast.error(errorMessage, { autoClose: 15000 });
           });
