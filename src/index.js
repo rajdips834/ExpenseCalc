@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <Router>
       <StateProvider initialState={initialState} reducer={reducer}>
-        <ToastContainer /> <App />
+        <App />
       </StateProvider>
     </Router>
   </React.StrictMode>
