@@ -1,7 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
   user: {
-    providerId: "password",
+    providerId: nanoid(),
     uid: "",
     displayName: null,
     email: "",

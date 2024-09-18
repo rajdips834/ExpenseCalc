@@ -25,7 +25,6 @@ const LoginPage = () => {
         })
         .then((userData) => {
           const user = {
-            providerId: "password",
             uid: email,
             displayName: null,
             email: email,
