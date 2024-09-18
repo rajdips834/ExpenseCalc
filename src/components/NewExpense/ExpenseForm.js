@@ -4,7 +4,7 @@ import "./ExpenseForm.css";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 const ExpenseForm = (props) => {
-  const user = useSelector((state) => state.auth.user);
+  const user = "rajdips834@gmail.com";
   const [userInput, setUserInput] = useState({
     enteredTitle: "",
     enteredAmount: "",
