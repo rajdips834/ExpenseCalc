@@ -44,9 +44,6 @@ export const EMAILSIGNIN = async (email, password) => {
     email,
     password
   );
-  let user = result.user.providerData[0];
-
-  return await firebaseGetUser(user.uid);
 };
 
 // Fetch All Food Products  from Firestore
@@ -79,7 +76,6 @@ export const firebaseGetExpenses = async (user) => {
       return data.user.uid === user ? data : null;
     })
     .filter((expense) => expense !== null); // Filter out null values
-  console.log(exp);
   return exp;
 };
 // get user
