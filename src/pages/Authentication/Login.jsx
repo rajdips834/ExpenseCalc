@@ -8,6 +8,7 @@ import { EMAILSIGNIN } from "../../firebase/index";
 import { useDispatch, useSelector } from "react-redux";
 import { use } from "framer-motion/client";
 import { login } from "../../redux/slices/authSlice";
+import { fetchExpenses } from "../../utils/fetchSessionData";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ const LoginPage = () => {
             phoneNumber: null,
           };
           dispatch(login(user));
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("isLoggedIn", true);
           navigate("/");
         })
         .catch((error) => {

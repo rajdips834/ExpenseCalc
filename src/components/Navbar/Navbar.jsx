@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  console.log(isLoggedIn);
   const navigate = useNavigate();
 
   const handleLoginClick = () => {

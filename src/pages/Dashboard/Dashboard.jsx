@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NewExpense from "../../components/NewExpense/NewExpense";
 import Expenses from "../../components/Expenses/Expenses";
+import { useSelector } from "react-redux";
+import { fetchExpenses } from "../../utils/fetchSessionData";
 const DUMMY_EXPENSES = [
   {
     id: "e1",
@@ -23,7 +25,10 @@ const DUMMY_EXPENSES = [
   },
 ];
 export default function Dashboard() {
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+  const [expenses, setExpenses] = useState(
+    JSON.parse(localStorage.getItem("expenses")) || DUMMY_EXPENSES
+  );
+  console.log("expenses", expenses);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
@@ -33,7 +38,7 @@ export default function Dashboard() {
   return (
     <>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses items={expenses} />
+      <Expenses expenses={expenses} />
     </>
   );
 }

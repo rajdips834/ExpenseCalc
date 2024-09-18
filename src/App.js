@@ -7,14 +7,13 @@ import Signup from "./pages/Authentication/Signup";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import Navbar from "./components/Navbar/Navbar";
-import { firebaseGetExpenses } from "./firebase";
+import { useDispatch } from "react-redux";
+import { addExpense } from "./redux/slices/expensesSlice";
+
 const App = () => {
-  const user = fetchSessionUser();
   useEffect(() => {
-    if (user) {
-      const expenses = firebaseGetExpenses(user.email);
-      localStorage.setItem("expenses", JSON.stringify(expenses));
-    }
+    fetchExpenses();
+    fetchSessionUser();
   }, []);
   return (
     <>
