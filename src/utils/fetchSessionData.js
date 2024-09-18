@@ -1,6 +1,5 @@
 import firebase from "firebase/compat/app";
 import { firebaseGetExpenses } from "../firebase";
-import { useDispatch, useSelector } from "react-redux";
 export const fetchSessionUser = () => {
   const user = localStorage.getItem("user");
 

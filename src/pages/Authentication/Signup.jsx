@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { EMAILSIGNUP, firebaseAddUser } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { useStateValue } from "../../context/StateProvider";
 export default function Signup() {
   const navigate = useNavigate();
   const dispatch = ({ obj }) => {
@@ -27,10 +26,10 @@ export default function Signup() {
           console.log(userCredential);
           const user = userCredential.user.providerData[0];
           console.log(user);
-          dispatch({
-            type: "SET_USER",
-            user: user,
-          });
+          // dispatch({
+          //   type: "SET_USER",
+          //   user: user,
+          // });
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/");
         })

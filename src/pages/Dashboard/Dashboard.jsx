@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NewExpense from "../../components/NewExpense/NewExpense";
 import Expenses from "../../components/Expenses/Expenses";
-import { useDispatch, useSelector } from "react-redux";
-import { use } from "framer-motion/client";
 const DUMMY_EXPENSES = [
   {
     id: "e1",
@@ -25,7 +23,7 @@ const DUMMY_EXPENSES = [
   },
 ];
 export default function Dashboard() {
-  const [expenses, setExpenses] = [useSelector((state) => state.expenses)];
+  const [expenses, setExpenses] = [DUMMY_EXPENSES];
   console.log("expenses", expenses);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
