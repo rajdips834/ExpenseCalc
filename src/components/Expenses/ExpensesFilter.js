@@ -10,9 +10,9 @@ const ExpensesFilter = (props) => {
     return self.indexOf(value) === index;
   };
   var yearList = [];
-  props.yearList.map((expense) => {
+  props?.yearList?.map((expense) => {
     yearList.push(expense.date.getFullYear().toString());
-    yearList = yearList.filter(distinct);
+    yearList = yearList?.filter(distinct);
   });
   console.log(yearList);
   return (
@@ -20,7 +20,7 @@ const ExpensesFilter = (props) => {
       <div className="expenses-filter__control">
         <label>Filter by year</label>
         <select value={props.selected} onChange={dropdownChangeHandler}>
-          {yearList.sort().map((year) => (
+          {yearList?.sort().map((year) => (
             <option value={year}>{year}</option>
           ))}
         </select>

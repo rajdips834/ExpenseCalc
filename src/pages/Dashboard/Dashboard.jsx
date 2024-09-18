@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewExpense from "../../components/NewExpense/NewExpense";
 import Expenses from "../../components/Expenses/Expenses";
 const DUMMY_EXPENSES = [
@@ -24,7 +24,7 @@ const DUMMY_EXPENSES = [
 ];
 export default function Dashboard() {
   const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
-
+  console.log("expenses", expenses);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];

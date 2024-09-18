@@ -1,3 +1,5 @@
+import firebase from "firebase/compat/app";
+import { firebaseGetExpenses } from "../firebase";
 export const fetchSessionUser = () => {
   const user = localStorage.getItem("user");
 
@@ -7,6 +9,10 @@ export const fetchSessionUser = () => {
     localStorage.removeItem("user"); // Clear only the specific item
     return null; // Or handle this case differently if needed
   }
+};
+export const fetchExpenses = async () => {
+  const user = fetchSessionUser();
+  return await firebaseGetExpenses(user.email);
 };
 
 export const fetchSessionCart = () => {

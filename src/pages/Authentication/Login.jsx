@@ -5,16 +5,11 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAILSIGNIN } from "../../firebase/index";
-import { useStateValue } from "../../context/StateProvider";
-import { actionCreators } from "../../state";
-import { useDispatch, useSelector } from "react-redux";
 const LoginPage = () => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loggedIn = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user"));
   const EmailAuth = () => {
     if (!user) {
       if (email.length > 0 && password.length > 0) {
@@ -33,7 +28,6 @@ const LoginPage = () => {
               phoneNumber: null,
             };
 
-            dispatch(actionCreators.login(user));
             localStorage.setItem("user", JSON.stringify(user));
             navigate("/");
           })

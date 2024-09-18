@@ -5,21 +5,18 @@ import Login from "./pages/Authentication/Login";
 import { ToastContainer } from "react-toastify";
 import Signup from "./pages/Authentication/Signup";
 import "react-toastify/dist/ReactToastify.css";
-import Random from "./pages/random";
-import { fetchSessionUser } from "./utils/fetchSessionData";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "./state";
+import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import Navbar from "./components/Navbar/Navbar";
+import { firebaseGetExpenses } from "./firebase";
 const App = () => {
-  const dispatch = useDispatch();
-
+  const user = fetchSessionUser();
   useEffect(() => {
-    const user = fetchSessionUser();
     if (user) {
-      dispatch(actionCreators.login(user));
+      const expenses = firebaseGetExpenses(user.email);
+      console.log("expenses", expenses);
+      localStorage.setItem("expenses", JSON.stringify(expenses));
     }
   }, []);
-
   return (
     <>
       <ToastContainer /> <Navbar />
@@ -27,7 +24,6 @@ const App = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/random" element={<Random />} />
       </Routes>
     </>
   );
