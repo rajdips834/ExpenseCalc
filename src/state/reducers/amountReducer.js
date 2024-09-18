@@ -2,13 +2,13 @@ const amountReducer = (state = { amount: 0 }, action) => {
   switch (action.type) {
     case "deposit":
       return {
-        ...state,
         amount: state.amount + action.payload,
+        ...state,
       };
     case "withdraw":
       return {
-        ...state,
         amount: state.amount - action.payload,
+        ...state,
       };
     default:
       return state;

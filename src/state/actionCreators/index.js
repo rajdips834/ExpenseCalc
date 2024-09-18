@@ -29,4 +29,12 @@ const logout = () => {
     });
   };
 };
-export { depositMoney, withdrawMoney, login, logout };
+const setExpenses = (expenses) => {
+  return (dispatch) => {
+    dispatch({
+      type: "setExpenses",
+      payload: expenses,
+    });
+  };
+};
+export { depositMoney, withdrawMoney, login, logout, setExpenses };

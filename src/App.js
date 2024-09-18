@@ -6,20 +6,24 @@ import { ToastContainer } from "react-toastify";
 import Signup from "./pages/Authentication/Signup";
 import "react-toastify/dist/ReactToastify.css";
 import Random from "./pages/random";
-import { fetchSessionUser } from "./utils/fetchSessionData";
+import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "./state";
 import Navbar from "./components/Navbar/Navbar";
+import { firebaseGetExpenses } from "./firebase";
+import { useSelector } from "react-redux";
 const App = () => {
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.user);
   useEffect(() => {
-    const user = fetchSessionUser();
     if (user) {
+      const expenses = firebaseGetExpenses(user.email);
+      console.log("expenses", expenses);
+      dispatch(actionCreators.setExpenses(expenses));
+      localStorage.setItem("expenses", JSON.stringify(expenses));
       dispatch(actionCreators.login(user));
     }
   }, []);
-
   return (
     <>
       <ToastContainer /> <Navbar />

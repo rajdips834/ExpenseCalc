@@ -59,21 +59,29 @@ export const firebaseLogout = async () => {
 // ADMIN USER MANAGEMENT
 
 // // firestore add to users collection
-export const firebaseAddUser = async (data) => {
-  // check if user already exists
-  const user = await firebaseGetUser(data.uid);
-  if (user.length === 0) {
-    await setDoc(doc(firestore, "Users", `${data.uid}`), data, {
-      merge: true,
-    });
-  }
+export const firebaseAddExpense = async (data) => {
+  await setDoc(doc(firestore, "Expenses", `${data.id}`), data, {
+    merge: true,
+  });
 };
-// export const firebaseDeleteUser = async (uid) => {
-//   await deleteDoc(doc(firestore, "Users", `${uid}`)).then(() => {
-//     toast.success("User deleted successfully");
-//   });
-// };
+export const firebaseDeleteExpense = async (uid) => {
+  await deleteDoc(doc(firestore, "Expenses", `${uid}`)).then(() => {
+    toast.success("User deleted successfully");
+  });
+};
 
+export const firebaseGetExpenses = async (user) => {
+  const expenses = await getDocs(query(collection(firestore, "Expenses")));
+  let exp = expenses.docs
+    .map((doc) => {
+      const data = doc.data();
+      // Only return the data if the user ID matches
+      return data.user.uid === user ? data : null;
+    })
+    .filter((expense) => expense !== null); // Filter out null values
+  console.log(exp);
+  return exp;
+};
 // get user
 export const firebaseGetUser = async (uid) => {
   const user = await getDocs(query(collection(firestore, "Users")));
