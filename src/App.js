@@ -9,6 +9,7 @@ import Random from "./pages/random";
 import { fetchSessionUser } from "./utils/fetchSessionData";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "./state";
+import Navbar from "./components/Navbar/Navbar";
 const App = () => {
   const dispatch = useDispatch();
 
@@ -21,8 +22,7 @@ const App = () => {
 
   return (
     <>
-      {" "}
-      <ToastContainer />
+      <ToastContainer /> <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />

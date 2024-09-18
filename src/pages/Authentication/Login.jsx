@@ -38,7 +38,6 @@ const LoginPage = () => {
             navigate("/");
           })
           .catch((error) => {
-            // const errorCode = error.code;
             const errorMessage = error.message;
             toast.error(errorMessage, { autoClose: 15000 });
           });
