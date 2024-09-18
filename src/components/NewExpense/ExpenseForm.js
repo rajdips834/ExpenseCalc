@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { firebaseAddExpense } from "../../firebase";
 import "./ExpenseForm.css";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 const ExpenseForm = (props) => {
   const user = "rajdips834@gmail.com";

@@ -9,35 +9,36 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : "rajdips834@gmail.com";
   const EmailAuth = () => {
-    if (!user) {
-      if (email.length > 0 && password.length > 0) {
-        toast
-          .promise(EMAILSIGNIN(email, password), {
-            pending: "Signing in...",
-            success: "Signin successful: WELCOME!",
-            error: "Error signing account, Please try again🤗",
-          })
-          .then((userData) => {
-            const user = {
-              providerId: "password",
-              uid: email,
-              displayName: null,
-              email: email,
-              phoneNumber: null,
-            };
+    if (email.length > 0 && password.length > 0) {
+      toast
+        .promise(EMAILSIGNIN(email, password), {
+          pending: "Signing in...",
+          success: "Signin successful: WELCOME!",
+          error: "Error signing account, Please try again🤗",
+        })
+        .then((userData) => {
+          const user = {
+            providerId: "password",
+            uid: email,
+            displayName: null,
+            email: email,
+            phoneNumber: null,
+          };
 
-            localStorage.setItem("user", JSON.stringify(user));
-            navigate("/");
-          })
-          .catch((error) => {
-            const errorMessage = error.message;
-            toast.error(errorMessage, { autoClose: 15000 });
-          });
-      } else {
-        toast.warn("Please fill all the fields", { autoClose: 15000 });
-      }
+          localStorage.setItem("user", JSON.stringify(user));
+          navigate("/");
+        })
+        .catch((error) => {
+          // const errorCode = error.code;
+          const errorMessage = error.message;
+          toast.error(errorMessage, { autoClose: 15000 });
+        });
+    } else {
+      toast.warn("Please fill all the fields", { autoClose: 15000 });
     }
   };
 

@@ -13,13 +13,13 @@ const App = () => {
   useEffect(() => {
     if (user) {
       const expenses = firebaseGetExpenses(user.email);
-      console.log("expenses", expenses);
       localStorage.setItem("expenses", JSON.stringify(expenses));
     }
   }, []);
   return (
     <>
-      <ToastContainer /> <Navbar />
+      <ToastContainer />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />

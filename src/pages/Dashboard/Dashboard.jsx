@@ -24,7 +24,6 @@ const DUMMY_EXPENSES = [
 ];
 export default function Dashboard() {
   const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
-  console.log("expenses", expenses);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
