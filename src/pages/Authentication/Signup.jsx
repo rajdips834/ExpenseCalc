@@ -14,37 +14,33 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const user = "rajdips834";
   const EmailAuth = () => {
-    if (!user) {
-      if (email.length > 0 && password.length > 0) {
-        toast
-          .promise(EMAILSIGNUP(email, password), {
-            pending: "Creating Account...",
-            success: "Signup successful: WELCOME!",
-            error: "Error Creating account, Please try again🤗",
-          })
-          .then((userCredential) => {
-            console.log(userCredential);
-            // Signed in
-            const user = userCredential.user.providerData[0];
-            console.log(user);
-            firebaseAddUser(user);
-            dispatch({
-              type: "SET_USER",
-              user: user,
-            });
-            localStorage.setItem("user", JSON.stringify(user));
-            navigate("/");
-          })
-          .catch((error) => {
-            // const errorCode = error.code;
-            const errorMessage = error.message;
-            toast.error(errorMessage, { autoClose: 15000 });
+    if (email.length > 0 && password.length > 0) {
+      toast
+        .promise(EMAILSIGNUP(email, password), {
+          pending: "Creating Account...",
+          success: "Signup successful: WELCOME!",
+          error: "Error Creating account, Please try again🤗",
+        })
+        .then((userCredential) => {
+          console.log("clicked");
+          console.log(userCredential);
+          const user = userCredential.user.providerData[0];
+          console.log(user);
+          dispatch({
+            type: "SET_USER",
+            user: user,
           });
-      } else {
-        toast.warn("Please fill all the fields", { autoClose: 15000 });
-      }
+          localStorage.setItem("user", JSON.stringify(user));
+          navigate("/");
+        })
+        .catch((error) => {
+          // const errorCode = error.code;
+          const errorMessage = error.message;
+          toast.error(errorMessage, { autoClose: 15000 });
+        });
+    } else {
+      toast.warn("Please fill all the fields", { autoClose: 15000 });
     }
   };
 
@@ -57,7 +53,7 @@ export default function Signup() {
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
-      <Grid2 item xs={12}>
+      <Grid2 xs={12}>
         <Paper
           elevation={10}
           style={{
@@ -77,6 +73,8 @@ export default function Signup() {
               fullWidth
               required
               margin="normal"
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
             />
             <TextField
               label="Password"
@@ -85,6 +83,8 @@ export default function Signup() {
               fullWidth
               required
               margin="normal"
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="password"
             />
             <Button
               type="submit"

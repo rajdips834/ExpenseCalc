@@ -1,8 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
+import { StateProvider } from "./context/StateProvider";
+import { initialState } from "./context/initialState";
+import reducer from "./context/reducer";
+import "./index.css";
+import App from "./App";
+import { ToastContainer } from "react-toastify";
 
-import './index.css';
-import App from './App';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <Router>
+      <StateProvider initialState={initialState} reducer={reducer}>
+        <ToastContainer /> <App />
+      </StateProvider>
+    </Router>
+  </React.StrictMode>
+);

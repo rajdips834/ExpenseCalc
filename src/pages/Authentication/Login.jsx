@@ -8,13 +8,9 @@ import { EMAILSIGNIN } from "../../firebase/index";
 import { useStateValue } from "../../context/StateProvider";
 const LoginPage = () => {
   const navigate = useNavigate();
-  const dispatch = ({ obj }) => {
-    console.log("dispatch");
-  };
+  const [{ user }, dispatch] = useStateValue();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const user = "rajdips834";
 
   const EmailAuth = () => {
     if (!user) {
@@ -33,6 +29,7 @@ const LoginPage = () => {
               email: email,
               phoneNumber: null,
             };
+
             dispatch({
               type: "SET_USER",
               user: user,
@@ -41,6 +38,7 @@ const LoginPage = () => {
             navigate("/");
           })
           .catch((error) => {
+            // const errorCode = error.code;
             const errorMessage = error.message;
             toast.error(errorMessage, { autoClose: 15000 });
           });
@@ -59,7 +57,7 @@ const LoginPage = () => {
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
-      <Grid2 item xs={12}>
+      <Grid2 xs={12}>
         <Paper
           elevation={10}
           style={{
@@ -72,50 +70,54 @@ const LoginPage = () => {
           <Typography variant="h5" align="center" gutterBottom>
             Login
           </Typography>
-          <form onSubmit={EmailAuth}>
-            <TextField
-              label="Email"
-              placeholder="Enter email"
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              label="Password"
-              placeholder="Enter password"
-              type="password"
-              fullWidth
-              required
-              margin="normal"
-            />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              fullWidth
-              style={{ marginTop: 20 }}
-            >
-              Login
-            </Button>
-            <Typography
-              variant="body2"
-              align="center"
-              gutterBottom
-              style={{ marginTop: 20 }}
-            >
-              New here?
-            </Typography>
-            <Button
-              type="submit"
-              color="primary"
-              variant="outlined"
-              fullWidth
-              onClick={() => navigate("/signup")}
-              style={{ marginTop: 20 }}
-            >
-              Register
-            </Button>
-          </form>
+
+          <TextField
+            label="Email"
+            placeholder="Enter email"
+            fullWidth
+            required
+            margin="normal"
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+          />
+          <TextField
+            label="Password"
+            placeholder="Enter password"
+            type="password"
+            fullWidth
+            required
+            margin="normal"
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="password"
+          />
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            fullWidth
+            style={{ marginTop: 20 }}
+            onClick={EmailAuth}
+          >
+            Login
+          </Button>
+          <Typography
+            variant="body2"
+            align="center"
+            gutterBottom
+            style={{ marginTop: 20 }}
+          >
+            New here?
+          </Typography>
+          <Button
+            type="submit"
+            color="primary"
+            variant="outlined"
+            fullWidth
+            onClick={() => navigate("/signup")}
+            style={{ marginTop: 20 }}
+          >
+            Register
+          </Button>
         </Paper>
       </Grid2>
     </Grid2>
