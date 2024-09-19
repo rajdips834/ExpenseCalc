@@ -1,5 +1,7 @@
 import firebase from "firebase/compat/app";
 import { firebaseGetExpenses } from "../firebase";
+import { addExpense } from "../redux/slices/expensesSlice";
+import { setLoading } from "../redux/slices/loadingSlice";
 export const fetchSessionUser = () => {
   const user = localStorage.getItem("user");
 
@@ -10,11 +12,13 @@ export const fetchSessionUser = () => {
     return null; // Or handle this case differently if needed
   }
 };
-export const fetchExpenses = async () => {
+export const fetchExpenses = async (dispatch) => {
   const user = fetchSessionUser();
-  console.log(user);
   const expenses = await firebaseGetExpenses(user.email);
   localStorage.setItem("expenses", JSON.stringify(expenses));
-  console.log(expenses);
+  expenses.forEach((expense) => {
+    dispatch(addExpense(expense));
+  });
+
   return expenses;
 };

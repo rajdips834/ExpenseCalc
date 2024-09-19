@@ -28,17 +28,23 @@ export default function Dashboard() {
   const [expenses, setExpenses] = useState(
     JSON.parse(localStorage.getItem("expenses")) || DUMMY_EXPENSES
   );
-  console.log("expenses", expenses);
+  const isLoading = useSelector((state) => state.loading);
+
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
     });
   };
+  console.log("loading", isLoading.loading);
 
   return (
     <>
-      <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses expenses={expenses} />
+      {isLoading && (
+        <>
+          <NewExpense onAddExpense={addExpenseHandler} />
+          <Expenses expenses={expenses} />
+        </>
+      )}
     </>
   );
 }

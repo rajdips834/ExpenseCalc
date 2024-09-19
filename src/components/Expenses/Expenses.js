@@ -9,11 +9,14 @@ const Expenses = (props) => {
   const [filteredYear, setFilteredYear] = useState("2020");
 
   const filteredExpenses = props?.expenses?.filter((expense) => {
-    return expense.date.toString().slice(0, 5) === filteredYear;
+    // Convert expense.date to a Date object before calling getFullYear
+    return new Date(expense.date).getFullYear().toString() === filteredYear;
   });
+  console.log("props", props.expenses);
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
   };
+
   return (
     <div>
       <Card className="expenses">

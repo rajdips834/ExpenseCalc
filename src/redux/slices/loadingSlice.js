@@ -1,16 +1,16 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
-  isLoading: false,
+  loading: false,
 };
 
 export const loadingSlice = createSlice({
   name: "loading",
   initialState,
   reducers: {
-    loading: (state, action) => {
-      state.isLoading = !state.isLoading;
+    setLoading: (state, action) => {
+      state.loading = !state.loading;
     },
   },
 });
-export const { loading } = loadingSlice.actions;
+export const { setLoading } = loadingSlice.actions;
 export default loadingSlice.reducer;

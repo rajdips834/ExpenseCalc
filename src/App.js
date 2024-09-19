@@ -8,11 +8,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import Navbar from "./components/Navbar/Navbar";
 import { useDispatch } from "react-redux";
-import { addExpense } from "./redux/slices/expensesSlice";
-
+import { setLoading } from "./redux/slices/loadingSlice";
 const App = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchExpenses();
+    dispatch(setLoading());
+    const loadExpenses = async () => {
+      await fetchExpenses(dispatch);
+    };
+
+    loadExpenses();
     fetchSessionUser();
   }, []);
   return (
