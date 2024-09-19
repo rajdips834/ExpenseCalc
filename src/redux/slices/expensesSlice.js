@@ -1,31 +1,13 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
-  expenses: [
-    {
-      id: nanoid(),
-      title: "Groceries",
-      amount: 200,
-      date: "2021-09-01",
-    },
-    {
-      id: nanoid(),
-      title: "Rent",
-      amount: 1000,
-      date: "2021-09-01",
-    },
-    {
-      id: nanoid(),
-      title: "Insurance",
-      amount: 300,
-      date: "2021-09-01",
-    },
-  ],
+  expenses: [],
 };
 export const expensesSlice = createSlice({
   name: "expenses",
   initialState,
   reducers: {
     addExpense: (state, action) => {
+      console.log(action.payload);
       state.expenses.push(action.payload);
     },
     deleteExpense: (state, action) => {

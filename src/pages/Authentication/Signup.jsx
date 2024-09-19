@@ -31,7 +31,7 @@ export default function Signup() {
           //   user: user,
           // });
           localStorage.setItem("user", JSON.stringify(user));
-          navigate("/");
+          navigate("/dashboard");
         })
         .catch((error) => {
           // const errorCode = error.code;

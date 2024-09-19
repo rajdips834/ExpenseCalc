@@ -34,7 +34,7 @@ const LoginPage = () => {
           dispatch(login(user));
           localStorage.setItem("user", JSON.stringify(user));
           localStorage.setItem("isLoggedIn", true);
-          navigate("/");
+          navigate("/dashboard");
         })
         .catch((error) => {
           // const errorCode = error.code;

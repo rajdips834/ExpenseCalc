@@ -26,7 +26,7 @@ const DUMMY_EXPENSES = [
 ];
 export default function Dashboard() {
   const [expenses, setExpenses] = useState(
-    JSON.parse(localStorage.getItem("expenses")) || DUMMY_EXPENSES
+    JSON.parse(localStorage.getItem("expenses"))
   );
   const isLoading = useSelector((state) => state.loading);
 

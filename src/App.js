@@ -9,6 +9,7 @@ import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import Navbar from "./components/Navbar/Navbar";
 import { useDispatch } from "react-redux";
 import { setLoading } from "./redux/slices/loadingSlice";
+import ProtectedRoute from "./utils/ProtectedRoute";
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,8 +26,15 @@ const App = () => {
       <ToastContainer />
       <Navbar />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </>

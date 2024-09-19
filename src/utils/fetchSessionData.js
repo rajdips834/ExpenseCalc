@@ -14,7 +14,7 @@ export const fetchSessionUser = () => {
 };
 export const fetchExpenses = async (dispatch) => {
   const user = fetchSessionUser();
-  const expenses = await firebaseGetExpenses(user.email);
+  const expenses = await firebaseGetExpenses(user);
   localStorage.setItem("expenses", JSON.stringify(expenses));
   expenses.forEach((expense) => {
     dispatch(addExpense(expense));
