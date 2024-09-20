@@ -24,7 +24,6 @@ export const expensesSlice = createSlice({
     },
     fetchUserExpenses: (state, action) => {
       state.expenses = action.payload;
-      console.log(state.expenses);
     },
   },
 });
