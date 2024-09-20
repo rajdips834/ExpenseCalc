@@ -4,14 +4,17 @@ import ExpensesFilter from "./ExpensesFilter";
 import "./Expenses.css";
 import ExpensesList from "./ExpensesList";
 import ExpensesChart from "./ExpensesChart";
+import { useSelector } from "react-redux";
 
 const Expenses = (props) => {
   const [filteredYear, setFilteredYear] = useState("2020");
-
-  const filteredExpenses = props?.expenses?.filter((expense) => {
-    // Convert expense.date to a Date object before calling getFullYear
-    return new Date(expense.date).getFullYear().toString() === filteredYear;
-  });
+  // const filteredExpenses = props?.expenses?.filter((expense) => {
+  //   return new Date(expense.date).getFullYear().toString() === filteredYear;
+  // });
+  const [expenses, setExpenses] = useState(
+    useSelector((state) => state.expenses)
+  );
+  const filteredExpenses = props.expenses;
   console.log("props", props.expenses);
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);

@@ -38,6 +38,7 @@ const ExpenseForm = (props) => {
       user: user,
       id: Math.random().toString(),
     };
+    console.log(expenseData.date);
     firebaseAddExpense(expenseData)
       .then(() => {
         toast.success("Expense Added Successfully");

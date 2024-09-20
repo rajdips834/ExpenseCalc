@@ -1,4 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { fetchExpenses } from "../../utils/fetchSessionData";
 const initialState = {
   expenses: [],
 };
@@ -21,7 +22,11 @@ export const expensesSlice = createSlice({
       );
       state.expenses[index] = action.payload;
     },
+    fetchUserExpenses: (state, action) => {
+      state.expenses = action.payload;
+    },
   },
 });
-export const { addExpense, deleteExpense, editExpense } = expensesSlice.actions;
+export const { addExpense, deleteExpense, editExpense, fetchUserExpenses } =
+  expensesSlice.actions;
 export default expensesSlice.reducer;

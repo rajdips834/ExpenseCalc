@@ -26,16 +26,15 @@ const DUMMY_EXPENSES = [
 ];
 export default function Dashboard() {
   const [expenses, setExpenses] = useState(
-    JSON.parse(localStorage.getItem("expenses"))
+    useSelector((state) => state.expenses.expenses)
   );
+  console.log(expenses);
   const isLoading = useSelector((state) => state.loading);
-
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
     });
   };
-  console.log("loading", isLoading.loading);
 
   return (
     <>

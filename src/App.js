@@ -7,20 +7,18 @@ import Signup from "./pages/Authentication/Signup";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import Navbar from "./components/Navbar/Navbar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "./redux/slices/loadingSlice";
 import ProtectedRoute from "./utils/ProtectedRoute";
+
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setLoading());
-    const loadExpenses = async () => {
-      await fetchExpenses(dispatch);
-    };
 
-    loadExpenses();
-    fetchSessionUser();
+    fetchExpenses(dispatch);
   }, []);
+
   return (
     <>
       <ToastContainer />

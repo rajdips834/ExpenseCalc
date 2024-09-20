@@ -14,8 +14,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = useSelector((state) => state.auth.user);
-  console.log(user);
   const EmailAuth = () => {
     if (email.length > 0 && password.length > 0) {
       toast
@@ -25,16 +23,11 @@ const LoginPage = () => {
           error: "Error signing account, Please try again🤗",
         })
         .then((userData) => {
-          const user = {
-            uid: email,
-            displayName: null,
-            email: email,
-            phoneNumber: null,
-          };
-          dispatch(login(user));
-          localStorage.setItem("user", JSON.stringify(user));
+          dispatch(login(email));
+          localStorage.setItem("user", JSON.stringify(email));
           localStorage.setItem("isLoggedIn", true);
           navigate("/dashboard");
+          fetchExpenses(dispatch);
         })
         .catch((error) => {
           // const errorCode = error.code;
