@@ -23,9 +23,7 @@ export default function Signup() {
         })
         .then((userCredential) => {
           console.log("clicked");
-          console.log(userCredential);
           const user = userCredential.user.providerData[0];
-          console.log(user);
           // dispatch({
           //   type: "SET_USER",
           //   user: user,

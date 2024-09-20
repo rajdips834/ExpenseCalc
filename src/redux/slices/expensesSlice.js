@@ -1,5 +1,6 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { fetchExpenses } from "../../utils/fetchSessionData";
+import { s } from "framer-motion/client";
 const initialState = {
   expenses: [],
 };
@@ -8,7 +9,6 @@ export const expensesSlice = createSlice({
   initialState,
   reducers: {
     addExpense: (state, action) => {
-      console.log(action.payload);
       state.expenses.push(action.payload);
     },
     deleteExpense: (state, action) => {
@@ -24,6 +24,7 @@ export const expensesSlice = createSlice({
     },
     fetchUserExpenses: (state, action) => {
       state.expenses = action.payload;
+      console.log(state.expenses);
     },
   },
 });

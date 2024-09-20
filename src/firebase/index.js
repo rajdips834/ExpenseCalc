@@ -87,11 +87,9 @@ export const firebaseGetExpenses = async () => {
       // Filter the expenses by user and return only relevant ones
       return data.user === user ? data : null;
     });
-    console.log("Expenses:", expenses);
     // Remove null values from the result
     const filteredExpenses = expenses.filter((expense) => expense !== null);
 
-    console.log("Filtered Expenses:", filteredExpenses);
     return filteredExpenses;
   } catch (error) {
     console.error("Error fetching expenses:", error);

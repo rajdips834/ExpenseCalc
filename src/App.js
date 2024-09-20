@@ -14,8 +14,6 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setLoading());
-
     fetchExpenses(dispatch);
   }, []);
 

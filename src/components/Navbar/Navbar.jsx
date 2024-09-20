@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  console.log(isLoggedIn);
   const navigate = useNavigate();
 
   const handleLoginClick = () => {

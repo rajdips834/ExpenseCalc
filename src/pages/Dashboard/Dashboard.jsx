@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import NewExpense from "../../components/NewExpense/NewExpense";
 import Expenses from "../../components/Expenses/Expenses";
 import { useSelector } from "react-redux";
-import { fetchExpenses } from "../../utils/fetchSessionData";
 const DUMMY_EXPENSES = [
   {
     id: "e1",
@@ -28,7 +27,6 @@ export default function Dashboard() {
   const [expenses, setExpenses] = useState(
     useSelector((state) => state.expenses.expenses)
   );
-  console.log(expenses);
   const isLoading = useSelector((state) => state.loading);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
@@ -37,13 +35,11 @@ export default function Dashboard() {
   };
 
   return (
-    <>
-      {isLoading && (
-        <>
-          <NewExpense onAddExpense={addExpenseHandler} />
-          <Expenses expenses={expenses} />
-        </>
-      )}
-    </>
+    isLoading && (
+      <>
+        <NewExpense onAddExpense={addExpenseHandler} />
+        <Expenses expenses={expenses} />
+      </>
+    )
   );
 }
