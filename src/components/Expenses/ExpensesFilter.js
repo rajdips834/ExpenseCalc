@@ -10,11 +10,11 @@ const ExpensesFilter = (props) => {
     return self.indexOf(value) === index;
   };
   var yearList = [];
-  props?.yearList?.map((expense) => {
-    yearList.push(expense.date.getFullYear().toString());
+  props.yearList?.map((expense) => {
+    yearList.push(expense.date.toString().slice(0, 4));
     yearList = yearList?.filter(distinct);
   });
-  console.log(yearList);
+
   return (
     <div className="expenses-filter">
       <div className="expenses-filter__control">

@@ -1,5 +1,9 @@
 import firebase from "firebase/compat/app";
 import { firebaseGetExpenses } from "../firebase";
+import { addExpense } from "../redux/slices/expensesSlice";
+import { setLoading } from "../redux/slices/loadingSlice";
+import { useSelector } from "react-redux";
+import { fetchUserExpenses } from "../redux/slices/expensesSlice";
 export const fetchSessionUser = () => {
   const user = localStorage.getItem("user");
 
@@ -10,30 +14,19 @@ export const fetchSessionUser = () => {
     return null; // Or handle this case differently if needed
   }
 };
-export const fetchExpenses = async () => {
+export const fetchExpenses = async (dispatch) => {
+  dispatch(setLoading(true));
   const user = fetchSessionUser();
-  return await firebaseGetExpenses(user.email);
-};
-
-export const fetchSessionCart = () => {
-  const cartInfo = localStorage.getItem("Expenses");
-
-  if (cartInfo && cartInfo != "undefined") {
-    return JSON.parse(cartInfo);
-  } else {
-    localStorage.removeItem("Expenses"); // Clear only the specific item
-    return [];
+  if (!user) {
+    console.error("No user found in session.");
+    return;
   }
-};
 
-// Session user mode
-export const fetchSessionUserMode = () => {
-  const adminMode = localStorage.getItem("adminMode");
+  const expenses = await firebaseGetExpenses(user).then((expenses) => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+    dispatch(fetchUserExpenses(expenses));
+  });
+  dispatch(setLoading(false));
 
-  if (adminMode && adminMode != "undefined") {
-    return JSON.parse(adminMode);
-  } else {
-    localStorage.removeItem("adminMode"); // Clear only the specific item
-    return false;
-  }
+  return expenses;
 };

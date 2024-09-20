@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const isLoggedIn = true;
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   const navigate = useNavigate();
 
   const handleLoginClick = () => {

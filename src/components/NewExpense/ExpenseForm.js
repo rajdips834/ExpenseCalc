@@ -3,7 +3,7 @@ import { firebaseAddExpense } from "../../firebase";
 import "./ExpenseForm.css";
 import { toast } from "react-toastify";
 const ExpenseForm = (props) => {
-  const user = "rajdips834@gmail.com";
+  const user = localStorage.getItem("user");
   const [userInput, setUserInput] = useState({
     enteredTitle: "",
     enteredAmount: "",
@@ -34,7 +34,7 @@ const ExpenseForm = (props) => {
     const expenseData = {
       title: userInput.enteredTitle,
       amount: userInput.enteredAmount,
-      date: new Date(userInput.enteredDate),
+      date: new Date(userInput.enteredDate).toISOString(),
       user: user,
       id: Math.random().toString(),
     };

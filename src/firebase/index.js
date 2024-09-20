@@ -24,6 +24,7 @@ import {
 } from "firebase/storage";
 
 import { toast } from "react-toastify";
+import { fetchSessionUser } from "../utils/fetchSessionData";
 
 // Signup with email and password
 
@@ -67,17 +68,35 @@ export const firebaseDeleteExpense = async (uid) => {
   });
 };
 
-export const firebaseGetExpenses = async (user) => {
-  const expenses = await getDocs(query(collection(firestore, "Expenses")));
-  let exp = expenses.docs
-    .map((doc) => {
+export const firebaseGetExpenses = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    console.error("No user found in local storage");
+    return [];
+  }
+
+  console.log("User found:", user);
+
+  try {
+    const expensesSnapshot = await getDocs(
+      query(collection(firestore, "Expenses"))
+    );
+    const expenses = expensesSnapshot.docs.map((doc) => {
       const data = doc.data();
-      // Only return the data if the user ID matches
-      return data.user.uid === user ? data : null;
-    })
-    .filter((expense) => expense !== null); // Filter out null values
-  return exp;
+      // Filter the expenses by user and return only relevant ones
+      return data.user === user ? data : null;
+    });
+    // Remove null values from the result
+    const filteredExpenses = expenses.filter((expense) => expense !== null);
+
+    return filteredExpenses;
+  } catch (error) {
+    console.error("Error fetching expenses:", error);
+    return [];
+  }
 };
+
 // get user
 export const firebaseGetUser = async (uid) => {
   const user = await getDocs(query(collection(firestore, "Users")));

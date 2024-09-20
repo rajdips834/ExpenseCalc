@@ -5,13 +5,15 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAILSIGNIN } from "../../firebase/index";
+import { useDispatch, useSelector } from "react-redux";
+import { use } from "framer-motion/client";
+import { login } from "../../redux/slices/authSlice";
+import { fetchExpenses } from "../../utils/fetchSessionData";
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : "rajdips834@gmail.com";
   const EmailAuth = () => {
     if (email.length > 0 && password.length > 0) {
       toast
@@ -21,16 +23,11 @@ const LoginPage = () => {
           error: "Error signing account, Please try again🤗",
         })
         .then((userData) => {
-          const user = {
-            providerId: "password",
-            uid: email,
-            displayName: null,
-            email: email,
-            phoneNumber: null,
-          };
-
-          localStorage.setItem("user", JSON.stringify(user));
-          navigate("/");
+          dispatch(login(email));
+          localStorage.setItem("user", JSON.stringify(email));
+          localStorage.setItem("isLoggedIn", true);
+          navigate("/dashboard");
+          fetchExpenses(dispatch);
         })
         .catch((error) => {
           // const errorCode = error.code;

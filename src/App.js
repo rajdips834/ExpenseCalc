@@ -7,22 +7,30 @@ import Signup from "./pages/Authentication/Signup";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchExpenses, fetchSessionUser } from "./utils/fetchSessionData";
 import Navbar from "./components/Navbar/Navbar";
-import { firebaseGetExpenses } from "./firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "./redux/slices/loadingSlice";
+import ProtectedRoute from "./utils/ProtectedRoute";
+
 const App = () => {
-  const user = fetchSessionUser();
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (user) {
-      const expenses = firebaseGetExpenses(user.email);
-      localStorage.setItem("expenses", JSON.stringify(expenses));
-    }
+    fetchExpenses(dispatch);
   }, []);
+
   return (
     <>
       <ToastContainer />
       <Navbar />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </>

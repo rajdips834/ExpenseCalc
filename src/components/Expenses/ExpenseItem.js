@@ -10,10 +10,15 @@ import {
   firebaseGetExpenses,
 } from "../../firebase/index";
 
+import { useDispatch } from "react-redux";
+import { deleteExpense } from "../../redux/slices/expensesSlice";
 const ExpenseItem = ({ date, id, amount, title }) => {
+  const dispatch = useDispatch();
+
   const handleDelete = () => {
     firebaseDeleteExpense(id).then(() => {
       firebaseGetExpenses();
+      dispatch(deleteExpense(id));
     });
   };
 
