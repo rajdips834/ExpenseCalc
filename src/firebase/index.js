@@ -91,15 +91,7 @@ export const firebaseDeleteExpense = async (uid) => {
 export const firebaseEditExpense = async (expense) => {
   try {
     const expenseRef = doc(firestore, "Expenses", expense.id);
-
-    await updateDoc(expenseRef, {
-      amount: expense.amount,
-      user: expense.user,
-      date: expense.date,
-      title: expense.title,
-    });
-
-    console.log("Expense updated successfully!");
+    await updateDoc(expenseRef, expense);
   } catch (error) {
     console.error("Error updating expense: ", error);
   }

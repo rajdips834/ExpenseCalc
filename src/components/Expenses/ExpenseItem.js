@@ -15,16 +15,10 @@ import { useState } from "react";
 
 import { useDispatch } from "react-redux";
 import { deleteExpense, editExpense } from "../../redux/slices/expensesSlice";
+import { fetchExpenses } from "../../utils/fetchSessionData";
 const ExpenseItem = ({ date, id, amount, title }) => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [expense, setExpense] = useState({
-    amount: "1234",
-    user: "rajdips834@gmail.com",
-    date: "2024-06-20T00:00:00.000Z",
-    id: "0.5139935396659225",
-    title: "table",
-  });
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -36,9 +30,9 @@ const ExpenseItem = ({ date, id, amount, title }) => {
 
   const handleSaveExpense = (updatedExpense) => {
     console.log("Updated Expense:", updatedExpense);
-    setExpense(updatedExpense); // Save the updated expense
     dispatch(editExpense(updatedExpense)); // Dispatch the updated expense to the Redux store
     firebaseEditExpense(updatedExpense); // Update the expense in Firebase Firestore
+    fetchExpenses(dispatch);
     handleCloseModal();
   };
   const handleDelete = () => {
