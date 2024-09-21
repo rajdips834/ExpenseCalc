@@ -10,12 +10,18 @@ import Navbar from "./components/Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "./redux/slices/loadingSlice";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import { use } from "framer-motion/client";
+import EditExpenseModal from "./components/Modal/EditExpenseModal";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     fetchExpenses(dispatch);
   }, []);
+  console.log(
+    "rendered",
+    useSelector((state) => state.expenses.expenses)
+  );
 
   return (
     <>
@@ -32,6 +38,7 @@ const App = () => {
         />
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/random" element={<EditExpenseModal />} />
       </Routes>
     </>
   );

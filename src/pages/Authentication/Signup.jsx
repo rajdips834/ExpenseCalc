@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { EMAILSIGNUP, firebaseAddUser } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/slices/authSlice";
 export default function Signup() {
   const navigate = useNavigate();
-  const dispatch = ({ obj }) => {
-    console.log("dispatch");
-  };
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,17 +23,13 @@ export default function Signup() {
           error: "Error Creating account, Please try again🤗",
         })
         .then((userCredential) => {
-          console.log("clicked");
-          const user = userCredential.user.providerData[0];
-          // dispatch({
-          //   type: "SET_USER",
-          //   user: user,
-          // });
-          localStorage.setItem("user", JSON.stringify(user));
+          console.log(userCredential);
+          dispatch(login(email));
+          localStorage.setItem("user", JSON.stringify(email));
+          localStorage.setItem("isLoggedIn", true);
           navigate("/dashboard");
         })
         .catch((error) => {
-          // const errorCode = error.code;
           const errorMessage = error.message;
           toast.error(errorMessage, { autoClose: 15000 });
         });
@@ -63,54 +60,53 @@ export default function Signup() {
           <Typography variant="h5" align="center" gutterBottom>
             Sign-Up
           </Typography>
-          <form onSubmit={EmailAuth}>
-            <TextField
-              label="Email"
-              placeholder="Enter email"
-              fullWidth
-              required
-              margin="normal"
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-            />
-            <TextField
-              label="Password"
-              placeholder="Enter password"
-              type="password"
-              fullWidth
-              required
-              margin="normal"
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="password"
-            />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              fullWidth
-              style={{ marginTop: 20 }}
-            >
-              Sign Up
-            </Button>
-            <Typography
-              variant="body2"
-              align="center"
-              gutterBottom
-              style={{ marginTop: 20 }}
-            >
-              Already have an account?
-            </Typography>
-            <Button
-              type="submit"
-              color="primary"
-              variant="outlined"
-              fullWidth
-              onClick={() => navigate("/login")}
-              style={{ marginTop: 20 }}
-            >
-              Login
-            </Button>
-          </form>
+          <TextField
+            label="Email"
+            placeholder="Enter email"
+            fullWidth
+            required
+            margin="normal"
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+          />
+          <TextField
+            label="Password"
+            placeholder="Enter password"
+            type="password"
+            fullWidth
+            required
+            margin="normal"
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="password"
+          />
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            fullWidth
+            style={{ marginTop: 20 }}
+            onClick={EmailAuth}
+          >
+            Sign Up
+          </Button>
+          <Typography
+            variant="body2"
+            align="center"
+            gutterBottom
+            style={{ marginTop: 20 }}
+          >
+            Already have an account?
+          </Typography>
+          <Button
+            type="submit"
+            color="primary"
+            variant="outlined"
+            fullWidth
+            onClick={() => navigate("/login")}
+            style={{ marginTop: 20 }}
+          >
+            Login
+          </Button>
         </Paper>
       </Grid2>
     </Grid2>
