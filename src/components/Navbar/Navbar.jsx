@@ -7,20 +7,30 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
+import { logout } from "../../redux/slices/authSlice";
 import { AccountCircle } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { firebaseLogout } from "../../firebase";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLoginClick = () => {
     navigate("/login");
   };
 
-  const handleProfileClick = () => {
-    navigate("/profile");
+  const handleLogoutClick = () => {
+    navigate("/");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    localStorage.removeItem("expenses");
+    firebaseLogout();
+    dispatch(logout());
+    toast.success("Logged out successfully");
   };
 
   return (
@@ -30,9 +40,9 @@ const Navbar = () => {
 
         {/* Dynamic Button: Shows Login or Profile Icon based on isLoggedIn */}
         {isLoggedIn ? (
-          <IconButton color="inherit" onClick={handleProfileClick}>
-            <AccountCircle />
-          </IconButton>
+          <Button color="inherit" onClick={handleLogoutClick}>
+            Logout
+          </Button>
         ) : (
           <Button color="inherit" onClick={handleLoginClick}>
             Login

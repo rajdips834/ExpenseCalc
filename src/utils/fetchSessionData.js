@@ -25,8 +25,6 @@ export const fetchExpenses = async (dispatch) => {
   const expenses = await firebaseGetExpenses(user).then((expenses) => {
     localStorage.setItem("expenses", JSON.stringify(expenses));
     dispatch(fetchUserExpenses(expenses));
-
-    console.log(expenses);
   });
   dispatch(setLoading(false));
 

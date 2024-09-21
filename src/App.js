@@ -18,10 +18,6 @@ const App = () => {
   useEffect(() => {
     fetchExpenses(dispatch);
   }, []);
-  console.log(
-    "rendered",
-    useSelector((state) => state.expenses.expenses)
-  );
 
   return (
     <>

@@ -104,8 +104,6 @@ export const firebaseGetExpenses = async () => {
     return [];
   }
 
-  console.log("User found:", user);
-
   try {
     const expensesSnapshot = await getDocs(
       query(collection(firestore, "Expenses"))
@@ -115,10 +113,8 @@ export const firebaseGetExpenses = async () => {
       // Filter the expenses by user and return only relevant ones
       return data.user === user ? data : null;
     });
-    console.log("Expenses:", expenses);
     // Remove null values from the result
     const filteredExpenses = expenses.filter((expense) => expense !== null);
-    console.log("Filtered expenses:", filteredExpenses);
     return filteredExpenses;
   } catch (error) {
     console.error("Error fetching expenses:", error);

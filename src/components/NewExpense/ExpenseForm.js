@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { firebaseAddExpense } from "../../firebase";
 import "./ExpenseForm.css";
 import { toast } from "react-toastify";
-import { fetchExpenses } from "../../utils/fetchSessionData";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addExpense } from "../../redux/slices/expensesSlice";
+
 const ExpenseForm = (props) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
+
   const [userInput, setUserInput] = useState({
     enteredTitle: "",
     enteredAmount: "",
@@ -36,20 +37,37 @@ const ExpenseForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    const { enteredTitle, enteredAmount, enteredDate } = userInput;
+
+    // Validate if any field is empty
+    if (!enteredTitle || !enteredAmount || !enteredDate) {
+      toast.error("Please fill out all fields: Title, Amount, and Date.");
+      return; // Stop the form submission if validation fails
+    }
+
     const expenseData = {
-      title: userInput.enteredTitle,
-      amount: userInput.enteredAmount,
-      date: new Date(userInput.enteredDate).toISOString(),
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: new Date(enteredDate).toISOString(),
       user: user,
       id: Math.random().toString(),
     };
+
     firebaseAddExpense(expenseData)
       .then(() => {
-        toast.success("Expense Added Successfully");
+        toast.success(
+          props.income
+            ? "Income Added Successfully"
+            : "Expense Added Successfully"
+        );
         dispatch(addExpense(expenseData));
       })
       .catch((error) => {
-        toast.error(`Error adding expense: ${error.message}`);
+        toast.error(
+          props.income
+            ? `Error adding income: ${error.message}`
+            : `Error adding expense: ${error.message}`
+        );
       })
       .finally(() =>
         setUserInput({

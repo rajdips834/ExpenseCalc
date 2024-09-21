@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NewExpense from "../../components/NewExpense/NewExpense";
 import Expenses from "../../components/Expenses/Expenses";
 import { useSelector } from "react-redux";
+import "./Dashboard.css";
 const DUMMY_EXPENSES = [
   {
     id: "e1",
@@ -38,8 +39,16 @@ export default function Dashboard() {
   return (
     isLoading && (
       <>
-        <NewExpense onAddExpense={addExpenseHandler} />
-        <Expenses expenses={expenses} />
+        <div className="container">
+          <div>
+            <NewExpense onAddExpense={addExpenseHandler} />
+            <Expenses expenses={expenses} />
+          </div>
+          <div>
+            <NewExpense income={true} onAddExpense={addExpenseHandler} />
+            <Expenses income={true} expenses={expenses} />
+          </div>
+        </div>
       </>
     )
   );
