@@ -46,7 +46,7 @@ export default function Dashboard() {
           </div>
           <div>
             <NewExpense income={true} onAddExpense={addExpenseHandler} />
-            <Expenses income={true} expenses={expenses} />
+            <Expenses income={true} />
           </div>
         </div>
       </>

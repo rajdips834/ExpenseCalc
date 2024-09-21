@@ -8,7 +8,16 @@ import { useSelector } from "react-redux";
 
 const Expenses = (props) => {
   const [filteredYear, setFilteredYear] = useState("2024");
-  const expenses = useSelector((state) => state.expenses.expenses);
+
+  // Use useSelector once
+  const allExpenses = useSelector((state) => ({
+    income: state.incomes.incomes,
+    expenses: state.expenses.expenses,
+  }));
+  console.log(allExpenses);
+
+  const expenses = props.income ? allExpenses.income : allExpenses.expenses;
+
   const filteredExpenses = expenses.filter((expense) => {
     return new Date(expense.date).getFullYear().toString() === filteredYear;
   });
@@ -16,7 +25,6 @@ const Expenses = (props) => {
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
   };
-
   return (
     <div>
       <Card className="expenses">
@@ -26,7 +34,7 @@ const Expenses = (props) => {
           onChangeFilter={filterChangeHandler}
         />
         <ExpensesChart expenses={filteredExpenses} />
-        <ExpensesList items={filteredExpenses} />
+        <ExpensesList income={props.income} items={filteredExpenses} />
       </Card>
     </div>
   );

@@ -82,6 +82,12 @@ export const firebaseAddExpense = async (data) => {
   });
 };
 
+export const firebaseAddIncome = async (data) => {
+  await setDoc(doc(firestore, "Income", `${data.id}`), data, {
+    merge: true,
+  });
+};
+
 export const firebaseDeleteExpense = async (uid) => {
   await deleteDoc(doc(firestore, "Expenses", `${uid}`)).then(() => {
     toast.success("Expense deleted successfully");

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { firebaseAddExpense } from "../../firebase";
+import { firebaseAddExpense, firebaseAddIncome } from "../../firebase";
 import "./ExpenseForm.css";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,6 @@ import { addExpense } from "../../redux/slices/expensesSlice";
 const ExpenseForm = (props) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   const [userInput, setUserInput] = useState({
     enteredTitle: "",
@@ -45,39 +44,46 @@ const ExpenseForm = (props) => {
       return; // Stop the form submission if validation fails
     }
 
-    const expenseData = {
+    const data = {
       title: enteredTitle,
       amount: enteredAmount,
       date: new Date(enteredDate).toISOString(),
       user: user,
       id: Math.random().toString(),
     };
+    props.income
+      ? firebaseAddIncome(data)
+          .then(() => {
+            toast.success("Income Added Successfully");
+            dispatch(addExpense(data));
+          })
+          .catch((error) => {
+            toast.error(`Error adding income: ${error.message}`);
+          })
+          .finally(() =>
+            setUserInput({
+              enteredTitle: "",
+              enteredAmount: "",
+              enteredDate: "",
+            })
+          )
+      : firebaseAddExpense(data)
+          .then(() => {
+            toast.success("Expense Added Successfully");
+            dispatch(addExpense(data));
+          })
+          .catch((error) => {
+            toast.error(`Error adding expense: ${error.message}`);
+          })
+          .finally(() =>
+            setUserInput({
+              enteredTitle: "",
+              enteredAmount: "",
+              enteredDate: "",
+            })
+          );
 
-    firebaseAddExpense(expenseData)
-      .then(() => {
-        toast.success(
-          props.income
-            ? "Income Added Successfully"
-            : "Expense Added Successfully"
-        );
-        dispatch(addExpense(expenseData));
-      })
-      .catch((error) => {
-        toast.error(
-          props.income
-            ? `Error adding income: ${error.message}`
-            : `Error adding expense: ${error.message}`
-        );
-      })
-      .finally(() =>
-        setUserInput({
-          enteredTitle: "",
-          enteredAmount: "",
-          enteredDate: "",
-        })
-      );
-
-    props.onSaveExpenseData(expenseData);
+    props.onSaveExpenseData(data);
   };
 
   return (
@@ -111,7 +117,9 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
-        <button type="submit">Add Expense</button>
+        <button type="submit">
+          {props.income ? "Add Income" : "Add Expense"}
+        </button>
       </div>
     </form>
   );

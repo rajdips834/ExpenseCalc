@@ -1,6 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { fetchExpenses } from "../../utils/fetchSessionData";
-import { s } from "framer-motion/client";
 const initialState = {
   expenses: [],
 };
