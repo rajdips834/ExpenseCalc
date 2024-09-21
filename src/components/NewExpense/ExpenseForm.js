@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { firebaseAddExpense } from "../../firebase";
 import "./ExpenseForm.css";
 import { toast } from "react-toastify";
+import { fetchExpenses } from "../../utils/fetchSessionData";
+import { useDispatch, useSelector } from "react-redux";
+import { addExpense } from "../../redux/slices/expensesSlice";
 const ExpenseForm = (props) => {
-  const user = "rajdips834@gmail.com";
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   const [userInput, setUserInput] = useState({
     enteredTitle: "",
     enteredAmount: "",
@@ -34,13 +39,14 @@ const ExpenseForm = (props) => {
     const expenseData = {
       title: userInput.enteredTitle,
       amount: userInput.enteredAmount,
-      date: new Date(userInput.enteredDate),
+      date: new Date(userInput.enteredDate).toISOString(),
       user: user,
       id: Math.random().toString(),
     };
     firebaseAddExpense(expenseData)
       .then(() => {
         toast.success("Expense Added Successfully");
+        dispatch(addExpense(expenseData));
       })
       .catch((error) => {
         toast.error(`Error adding expense: ${error.message}`);

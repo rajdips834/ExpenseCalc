@@ -9,6 +9,8 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
+  getFirestore,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -24,17 +26,37 @@ import {
 } from "firebase/storage";
 
 import { toast } from "react-toastify";
+import { fetchExpenses, fetchSessionUser } from "../utils/fetchSessionData";
 
 // Signup with email and password
 
+// Function to sign up a user with email and password
 export const EMAILSIGNUP = async (email, password) => {
   const firebaseAuth = getAuth(app);
-  const result = await createUserWithEmailAndPassword(
-    firebaseAuth,
-    email,
-    password
-  );
-  return result;
+
+  try {
+    // Create a new user with the email and password
+    const userCredential = await createUserWithEmailAndPassword(
+      firebaseAuth,
+      email,
+      password
+    );
+
+    // The signed-in user information
+    const user = userCredential.user;
+    console.log("User signed up successfully:", user);
+
+    // You can return or handle the user data as needed
+    return user;
+  } catch (error) {
+    // Handle errors here
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error("Error during sign up:", errorCode, errorMessage);
+
+    // Handle specific errors or return a message
+    throw error;
+  }
 };
 //  Signin with email and password
 export const EMAILSIGNIN = async (email, password) => {
@@ -44,6 +66,7 @@ export const EMAILSIGNIN = async (email, password) => {
     email,
     password
   );
+  return result;
 };
 
 // Fetch All Food Products  from Firestore
@@ -53,87 +76,52 @@ export const firebaseLogout = async () => {
   await getAuth(app).signOut();
 };
 
-// ADMIN USER MANAGEMENT
-
-// // firestore add to users collection
 export const firebaseAddExpense = async (data) => {
   await setDoc(doc(firestore, "Expenses", `${data.id}`), data, {
     merge: true,
   });
 };
+
 export const firebaseDeleteExpense = async (uid) => {
   await deleteDoc(doc(firestore, "Expenses", `${uid}`)).then(() => {
     toast.success("User deleted successfully");
   });
 };
 
-export const firebaseGetExpenses = async (user) => {
-  const expenses = await getDocs(query(collection(firestore, "Expenses")));
-  let exp = expenses.docs
-    .map((doc) => {
+export const firebaseEditExpense = async (expense) => {
+  try {
+    const expenseRef = doc(firestore, "Expenses", expense.id);
+    await updateDoc(expenseRef, expense);
+  } catch (error) {
+    console.error("Error updating expense: ", error);
+  }
+};
+export const firebaseGetExpenses = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    console.error("No user found in local storage");
+    return [];
+  }
+
+  console.log("User found:", user);
+
+  try {
+    const expensesSnapshot = await getDocs(
+      query(collection(firestore, "Expenses"))
+    );
+    const expenses = expensesSnapshot.docs.map((doc) => {
       const data = doc.data();
-      // Only return the data if the user ID matches
-      return data.user.uid === user ? data : null;
-    })
-    .filter((expense) => expense !== null); // Filter out null values
-  return exp;
+      // Filter the expenses by user and return only relevant ones
+      return data.user === user ? data : null;
+    });
+    console.log("Expenses:", expenses);
+    // Remove null values from the result
+    const filteredExpenses = expenses.filter((expense) => expense !== null);
+    console.log("Filtered expenses:", filteredExpenses);
+    return filteredExpenses;
+  } catch (error) {
+    console.error("Error fetching expenses:", error);
+    return [];
+  }
 };
-// get user
-export const firebaseGetUser = async (uid) => {
-  const user = await getDocs(query(collection(firestore, "Users")));
-  let users = user.docs.map((doc) => doc.data());
-  return users.filter((user) => user.uid === uid);
-};
-
-// update user
-export const firebaseUpdateUser = async (data) => {
-  await setDoc(doc(firestore, "Users", `${data.uid}`), data, {
-    merge: true,
-  });
-};
-
-// // firebase get all users
-// export const firebaseGetAllUsers = async () => {
-//   const users = await getDocs(query(collection(firestore, "Users")));
-//   let usersData = users.docs.map((doc) => doc.data());
-//   return usersData;
-// };
-
-// // delete food
-// export const firebaseDeleteFood = async (id) => {
-//   await deleteDoc(doc(firestore, "Food", `${id}`));
-// };
-// export const firebaseAddOrder = async (data) => {
-//   await addDoc(collection(firestore, "Orders"), data).then(() => {
-//     console.log("Order added");
-//   });
-// };
-// export const firebaseFetchAllOrders = async () => {
-//   let orders = await getDocs(query(collection(firestore, "Orders")));
-//   orders = orders.docs.map((doc) => doc.data());
-//   return orders;
-// };
-// export const firebaseFetchFoodDetails = async () => {
-//   const foods = await getDocs(query(collection(firestore, "Food")));
-//   let food = foods.docs.map((doc) => doc.data());
-
-//   return food;
-// };
-// try {
-//   // Fetch the document from the "Food" collection with the given id
-//   const docRef = doc(firestore, "Food", id);
-//   const docSnap = await getDoc(docRef);
-//   console.log(docSnap);
-//   // Check if the document exists
-//   if (docSnap.exists()) {
-//     // Extract the 'name' field from the document data
-//     const foodName = docSnap.data().name;
-//     return foodName;
-//   } else {
-//     console.log("No such document!");
-//     return null;
-//   }
-// } catch (error) {
-//   console.error("Error fetching food details:", error);
-//   throw error;
-// }
