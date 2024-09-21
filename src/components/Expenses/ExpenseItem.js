@@ -7,27 +7,51 @@ import EditIcon from "@mui/icons-material/Edit"; // Import Edit icon
 import "./ExpenseItem.css";
 import {
   firebaseDeleteExpense,
+  firebaseEditExpense,
   firebaseGetExpenses,
 } from "../../firebase/index";
+import EditExpenseModal from "../Modal/EditExpenseModal";
+import { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { deleteExpense } from "../../redux/slices/expensesSlice";
+import { deleteExpense, editExpense } from "../../redux/slices/expensesSlice";
 const ExpenseItem = ({ date, id, amount, title }) => {
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expense, setExpense] = useState({
+    amount: "1234",
+    user: "rajdips834@gmail.com",
+    date: "2024-06-20T00:00:00.000Z",
+    id: "0.5139935396659225",
+    title: "table",
+  });
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveExpense = (updatedExpense) => {
+    console.log("Updated Expense:", updatedExpense);
+    setExpense(updatedExpense); // Save the updated expense
+    dispatch(editExpense(updatedExpense)); // Dispatch the updated expense to the Redux store
+    firebaseEditExpense(updatedExpense); // Update the expense in Firebase Firestore
+    handleCloseModal();
+  };
   const handleDelete = () => {
     firebaseDeleteExpense(id).then(() => {
       firebaseGetExpenses();
-      dispatch(deleteExpense(id));
     });
   };
 
   const handleEdit = () => {
-    // Add your edit logic here
-    console.log("Edit clicked");
+    setIsModalOpen(true);
   };
 
-  return (
+  return !isModalOpen ? (
     <Card className="expense-item">
       <ExpenseDate date={date} />
       <div className="expense-item__description">
@@ -45,6 +69,13 @@ const ExpenseItem = ({ date, id, amount, title }) => {
         </Button>
       </Box>
     </Card>
+  ) : (
+    <EditExpenseModal
+      open={isModalOpen}
+      handleClose={handleCloseModal}
+      expense={{ date, id, amount, title }}
+      handleSave={handleSaveExpense}
+    />
   );
 };
 

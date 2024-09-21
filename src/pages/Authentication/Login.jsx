@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const EmailAuth = () => {
+    console.log(email, password);
     if (email.length > 0 && password.length > 0) {
       toast
         .promise(EMAILSIGNIN(email, password), {

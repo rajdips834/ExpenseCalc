@@ -6,6 +6,7 @@ import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyCtCcBL8cDzJplPJsUmPG2vUV9ItAUTuuE",
   authDomain: "expensecalc-da4f7.firebaseapp.com",
+  databaseURL: "https://expensecalc-da4f7-default-rtdb.firebaseio.com",
   projectId: "expensecalc-da4f7",
   storageBucket: "expensecalc-da4f7.appspot.com",
   messagingSenderId: "535306174007",
@@ -16,5 +17,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
-
-export { app, firestore, storage };
+const auth = getApp();
+export { app, firestore, storage, auth };

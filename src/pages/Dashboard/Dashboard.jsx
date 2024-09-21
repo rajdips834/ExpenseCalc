@@ -24,6 +24,7 @@ const DUMMY_EXPENSES = [
   },
 ];
 export default function Dashboard() {
+  const [editModal, setEditModal] = useState(false);
   const [expenses, setExpenses] = useState(
     useSelector((state) => state.expenses.expenses)
   );
