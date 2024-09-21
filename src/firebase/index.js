@@ -84,7 +84,7 @@ export const firebaseAddExpense = async (data) => {
 
 export const firebaseDeleteExpense = async (uid) => {
   await deleteDoc(doc(firestore, "Expenses", `${uid}`)).then(() => {
-    toast.success("User deleted successfully");
+    toast.success("Expense deleted successfully");
   });
 };
 

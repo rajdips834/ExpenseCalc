@@ -20,10 +20,6 @@ const ExpenseItem = ({ date, id, amount, title }) => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -39,6 +35,7 @@ const ExpenseItem = ({ date, id, amount, title }) => {
     firebaseDeleteExpense(id).then(() => {
       firebaseGetExpenses();
     });
+    dispatch(deleteExpense(id));
   };
 
   const handleEdit = () => {
