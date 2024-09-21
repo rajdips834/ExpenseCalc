@@ -1,5 +1,4 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { fetchExpenses } from "../../utils/fetchSessionData";
 const initialState = {
   incomes: [],
 };
@@ -15,7 +14,7 @@ export const incomesSlice = createSlice({
         (income) => income.id !== action.payload
       );
     },
-    editExpense: (state, action) => {
+    editIncome: (state, action) => {
       const index = state.incomes.findIndex(
         (income) => income.id === action.payload.id
       );

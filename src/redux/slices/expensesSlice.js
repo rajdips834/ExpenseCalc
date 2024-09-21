@@ -1,5 +1,4 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { fetchExpenses } from "../../utils/fetchSessionData";
 const initialState = {
   expenses: [],
 };

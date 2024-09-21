@@ -1,9 +1,10 @@
 import firebase from "firebase/compat/app";
-import { firebaseGetExpenses } from "../firebase";
+import { firebaseGetExpenses, firebaseGetIncomes } from "../firebase";
 import { addExpense } from "../redux/slices/expensesSlice";
 import { setLoading } from "../redux/slices/loadingSlice";
 import { useSelector } from "react-redux";
 import { fetchUserExpenses } from "../redux/slices/expensesSlice";
+import { fetchUserIncomes } from "../redux/slices/incomesSlice";
 export const fetchSessionUser = () => {
   const user = localStorage.getItem("user");
 
@@ -24,9 +25,14 @@ export const fetchExpenses = async (dispatch) => {
 
   const expenses = await firebaseGetExpenses(user).then((expenses) => {
     localStorage.setItem("expenses", JSON.stringify(expenses));
+    console.log("expenses", expenses);
+
     dispatch(fetchUserExpenses(expenses));
   });
+  const incomes = await firebaseGetIncomes(user).then((incomes) => {
+    console.log("incomes", incomes);
+    localStorage.setItem("incomes", JSON.stringify(incomes));
+    dispatch(fetchUserIncomes(incomes));
+  });
   dispatch(setLoading(false));
-
-  return expenses;
 };

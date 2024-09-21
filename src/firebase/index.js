@@ -93,6 +93,12 @@ export const firebaseDeleteExpense = async (uid) => {
     toast.success("Expense deleted successfully");
   });
 };
+export const firebaseDeleteIncome = async (uid) => {
+  await deleteDoc(doc(firestore, "Income", `${uid}`)).then((result) => {
+    console.log("result", result);
+    toast.success("Income deleted successfully");
+  });
+};
 
 export const firebaseEditExpense = async (expense) => {
   try {
@@ -122,6 +128,31 @@ export const firebaseGetExpenses = async () => {
     // Remove null values from the result
     const filteredExpenses = expenses.filter((expense) => expense !== null);
     return filteredExpenses;
+  } catch (error) {
+    console.error("Error fetching expenses:", error);
+    return [];
+  }
+};
+export const firebaseGetIncomes = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    console.error("No user found in local storage");
+    return [];
+  }
+
+  try {
+    const expensesSnapshot = await getDocs(
+      query(collection(firestore, "Income"))
+    );
+    const incomes = expensesSnapshot.docs.map((doc) => {
+      const data = doc.data();
+      // Filter the expenses by user and return only relevant ones
+      return data.user === user ? data : null;
+    });
+    // Remove null values from the result
+    const filteredIncomes = incomes.filter((income) => income !== null);
+    return filteredIncomes;
   } catch (error) {
     console.error("Error fetching expenses:", error);
     return [];

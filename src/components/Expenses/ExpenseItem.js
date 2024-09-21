@@ -6,9 +6,12 @@ import DeleteIcon from "@mui/icons-material/Delete"; // Import Delete icon
 import EditIcon from "@mui/icons-material/Edit"; // Import Edit icon
 import "./ExpenseItem.css";
 import {
+  firebaseAddIncome,
   firebaseDeleteExpense,
+  firebaseDeleteIncome,
   firebaseEditExpense,
   firebaseGetExpenses,
+  firebaseGetIncomes,
 } from "../../firebase/index";
 import EditExpenseModal from "../Modal/EditExpenseModal";
 import { useState } from "react";
@@ -16,7 +19,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteExpense, editExpense } from "../../redux/slices/expensesSlice";
 import { fetchExpenses } from "../../utils/fetchSessionData";
-const ExpenseItem = ({ date, id, amount, title }) => {
+import { deleteIncome, editIncome } from "../../redux/slices/incomesSlice";
+const ExpenseItem = ({ date, id, amount, title, income }) => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,17 +29,31 @@ const ExpenseItem = ({ date, id, amount, title }) => {
   };
 
   const handleSaveExpense = (updatedExpense) => {
-    console.log("Updated Expense:", updatedExpense);
-    dispatch(editExpense(updatedExpense)); // Dispatch the updated expense to the Redux store
-    firebaseEditExpense(updatedExpense); // Update the expense in Firebase Firestore
-    fetchExpenses(dispatch);
-    handleCloseModal();
+    if (income) {
+      console.log("Updated Income:", updatedExpense);
+      dispatch(editIncome(updatedExpense)); // Dispatch the updated income to the Redux store
+      firebaseAddIncome(updatedExpense); // Add or update income in Firebase Firestore
+    } else {
+      console.log("Updated Expense:", updatedExpense);
+      dispatch(editExpense(updatedExpense)); // Dispatch the updated expense to the Redux store
+      firebaseEditExpense(updatedExpense); // Update the expense in Firebase Firestore
+    }
+
+    fetchExpenses(dispatch); // Fetch the updated expenses and refresh
+    handleCloseModal(); // Close the modal
   };
   const handleDelete = () => {
-    firebaseDeleteExpense(id).then(() => {
-      firebaseGetExpenses();
-    });
-    dispatch(deleteExpense(id));
+    if (income) {
+      firebaseDeleteIncome(id).then(() => {
+        firebaseGetIncomes();
+        dispatch(deleteIncome(id));
+      });
+    } else {
+      firebaseDeleteExpense(id).then(() => {
+        firebaseGetExpenses();
+        dispatch(deleteExpense(id));
+      });
+    }
   };
 
   const handleEdit = () => {
