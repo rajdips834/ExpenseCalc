@@ -51,8 +51,7 @@ export default function Dashboard() {
       0
     );
     setTotalExpenses(totalExpenses);
-  }, []);
-
+  }, [data.income, data.expenses]);
   const isLoading = useSelector((state) => state.loading);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
