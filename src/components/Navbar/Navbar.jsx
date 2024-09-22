@@ -14,7 +14,9 @@ const Navbar = () => {
   const handleLoginClick = () => {
     navigate("/login");
   };
-
+  const handleCurrencyClick = () => {
+    navigate("/currency");
+  };
   const handleLogoutClick = () => {
     navigate("/");
     localStorage.removeItem("isLoggedIn");
@@ -59,6 +61,11 @@ const Navbar = () => {
         ) : (
           <Button color="inherit" onClick={handleLoginClick}>
             Login
+          </Button>
+        )}
+        {isLoggedIn && (
+          <Button color="inherit" onClick={handleCurrencyClick}>
+            Currency Converter
           </Button>
         )}
       </Toolbar>

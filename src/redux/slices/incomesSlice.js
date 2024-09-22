@@ -1,6 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
   incomes: [],
+  totalIncome: 0,
 };
 export const incomesSlice = createSlice({
   name: "incomes",
@@ -23,8 +24,19 @@ export const incomesSlice = createSlice({
     fetchUserIncomes: (state, action) => {
       state.incomes = action.payload;
     },
+    setTotalIncome: (state) => {
+      state.totalIncome = state.incomes.reduce(
+        (sum, item) => sum + parseFloat(item.amount),
+        0
+      );
+    },
   },
 });
-export const { addIncomes, deleteIncome, editIncome, fetchUserIncomes } =
-  incomesSlice.actions;
+export const {
+  addIncomes,
+  deleteIncome,
+  editIncome,
+  fetchUserIncomes,
+  setTotalIncome,
+} = incomesSlice.actions;
 export default incomesSlice.reducer;

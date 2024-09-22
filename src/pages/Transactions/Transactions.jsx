@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ExpensesList from "../../components/Expenses/ExpensesList";
 import "./Transactions.css";
 import CurrencyConverter from "../../components/CurrencyConverter/CurrencyConverter";
+import { setTotalIncome } from "../../redux/slices/incomesSlice";
+import { setTotalExpense } from "../../redux/slices/expensesSlice";
 
 export default function Transactions() {
   const data = useSelector((state) => ({
     income: state.incomes.incomes,
     expenses: state.expenses.expenses,
   }));
-
+  const dispatch = useDispatch();
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
 
@@ -25,10 +27,14 @@ export default function Transactions() {
       0
     );
     setExpenses(totalExpenses);
+    dispatch(setTotalIncome());
+    dispatch(setTotalExpense());
   }, [data]); // Run only when data.income changes
 
   return (
     <>
+      <CurrencyConverter />
+
       <div>
         {" "}
         <h1 className="container__transactions">Transactions</h1>
@@ -50,8 +56,6 @@ export default function Transactions() {
           <ExpensesList items={data.income} income={true} />
         </div>
       </div>
-
-      <CurrencyConverter />
     </>
   );
 }
