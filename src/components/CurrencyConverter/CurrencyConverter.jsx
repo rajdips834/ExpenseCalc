@@ -48,6 +48,7 @@ const CurrencyConverter = () => {
         border: "1px solid #ddd",
         borderRadius: 2,
         boxShadow: 2,
+        marginTop: 4,
       }}
     >
       <Typography variant="h4" gutterBottom>

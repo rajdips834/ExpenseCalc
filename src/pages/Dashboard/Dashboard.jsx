@@ -3,6 +3,9 @@ import NewExpense from "../../components/NewExpense/NewExpense";
 import Expenses from "../../components/Expenses/Expenses";
 import { useSelector } from "react-redux";
 import "./Dashboard.css";
+import PieChart from "../../components/PieChart/PieChart";
+import RecentTransactions from "../../components/RecentTransactions/RecentTransactions";
+
 const DUMMY_EXPENSES = [
   {
     id: "e1",
@@ -29,6 +32,25 @@ export default function Dashboard() {
   const [expenses, setExpenses] = useState(
     useSelector((state) => state.expenses.expenses)
   );
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  const data = useSelector((state) => ({
+    income: state.incomes.incomes,
+    expenses: state.expenses.expenses,
+  }));
+  useEffect(() => {
+    const totalIncome = data.income.reduce(
+      (sum, item) => sum + parseFloat(item.amount),
+      0
+    );
+    setTotalIncome(totalIncome);
+    const totalExpenses = data.expenses.reduce(
+      (sum, item) => sum + parseFloat(item.amount),
+      0
+    );
+    setTotalExpenses(totalExpenses);
+  }, [data]);
+
   const isLoading = useSelector((state) => state.loading);
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
@@ -40,11 +62,12 @@ export default function Dashboard() {
       return [income, ...prevExpenses];
     });
   };
-
   return (
     isLoading && (
       <>
         <div className="container">
+          <PieChart income={totalIncome} expenses={totalExpenses} />
+          <RecentTransactions />
           <div>
             <NewExpense onAddExpense={addExpenseHandler} />
             <Expenses expenses={expenses} />

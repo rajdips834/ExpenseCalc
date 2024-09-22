@@ -13,7 +13,8 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import { use } from "framer-motion/client";
 import EditExpenseModal from "./components/Modal/EditExpenseModal";
 import Transactions from "./pages/Transactions/Transactions";
-
+import CurrencyConverter from "./components/CurrencyConverter/CurrencyConverter";
+import PieChart from "./components/PieChart/PieChart";
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -42,7 +43,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/currency" element={<CurrencyConverter />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/edit" element={<PieChart />} />
       </Routes>
     </>
   );

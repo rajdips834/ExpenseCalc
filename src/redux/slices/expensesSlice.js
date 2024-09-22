@@ -1,6 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
   expenses: [],
+  totalExpenses: 0,
 };
 export const expensesSlice = createSlice({
   name: "expenses",
@@ -23,8 +24,19 @@ export const expensesSlice = createSlice({
     fetchUserExpenses: (state, action) => {
       state.expenses = action.payload;
     },
+    setTotalExpense: (state) => {
+      state.totalExpenses = state.expenses.reduce(
+        (sum, item) => sum + parseFloat(item.amount),
+        0
+      );
+    },
   },
 });
-export const { addExpense, deleteExpense, editExpense, fetchUserExpenses } =
-  expensesSlice.actions;
+export const {
+  addExpense,
+  deleteExpense,
+  editExpense,
+  fetchUserExpenses,
+  setTotalExpense,
+} = expensesSlice.actions;
 export default expensesSlice.reducer;
