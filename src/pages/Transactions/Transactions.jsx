@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ExpensesList from "../../components/Expenses/ExpensesList";
 import "./Transactions.css";
+import CurrencyConverter from "../../components/CurrencyConverter/CurrencyConverter";
 
 export default function Transactions() {
   const data = useSelector((state) => ({
@@ -49,6 +50,8 @@ export default function Transactions() {
           <ExpensesList items={data.income} income={true} />
         </div>
       </div>
+
+      <CurrencyConverter />
     </>
   );
 }
