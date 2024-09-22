@@ -12,6 +12,7 @@ import { setLoading } from "./redux/slices/loadingSlice";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { use } from "framer-motion/client";
 import EditExpenseModal from "./components/Modal/EditExpenseModal";
+import Transactions from "./pages/Transactions/Transactions";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,8 +34,15 @@ const App = () => {
           }
         />
         <Route path="/" element={<Login />} />
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <Transactions />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/random" element={<EditExpenseModal />} />
       </Routes>
     </>
   );

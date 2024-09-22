@@ -1,0 +1,23 @@
+.container__transactions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* For smaller screens (e.g., phones) */
+@media (max-width: 768px) {
+    .container__transactions {
+        flex-direction: column; /* Change to column for smaller devices */
+    }
+}
+
+.sub__container__transactions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
