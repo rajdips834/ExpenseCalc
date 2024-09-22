@@ -45,7 +45,6 @@ const App = () => {
         />
         <Route path="/currency" element={<CurrencyConverter />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/edit" element={<PieChart />} />
       </Routes>
     </>
   );

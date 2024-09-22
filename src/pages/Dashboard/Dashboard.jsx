@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import "./Dashboard.css";
 import PieChart from "../../components/PieChart/PieChart";
 import RecentTransactions from "../../components/RecentTransactions/RecentTransactions";
-
+import SavingsGoal from "../../components/Savings/SavingsGoals";
 const DUMMY_EXPENSES = [
   {
     id: "e1",
@@ -38,6 +38,8 @@ export default function Dashboard() {
     income: state.incomes.incomes,
     expenses: state.expenses.expenses,
   }));
+  const savings = useSelector((state) => state.savings.savingGoals);
+  console.log(savings);
   useEffect(() => {
     const totalIncome = data.income.reduce(
       (sum, item) => sum + parseFloat(item.amount),
@@ -49,7 +51,7 @@ export default function Dashboard() {
       0
     );
     setTotalExpenses(totalExpenses);
-  }, [data]);
+  }, []);
 
   const isLoading = useSelector((state) => state.loading);
   const addExpenseHandler = (expense) => {
@@ -62,13 +64,26 @@ export default function Dashboard() {
       return [income, ...prevExpenses];
     });
   };
+
   return (
     isLoading && (
       <>
         <div className="container">
-          <PieChart income={totalIncome} expenses={totalExpenses} />
           <RecentTransactions />
+          <div className="chart__container">
+            {" "}
+            <PieChart
+              data={[totalIncome, totalExpenses]}
+              titles={["Income", "Expenses"]}
+            />
+            <PieChart
+              data={[totalIncome, totalExpenses, savings]}
+              titles={["Remaining Money", "Expenses", "Savings"]}
+            />
+          </div>
+
           <div>
+            <SavingsGoal />
             <NewExpense onAddExpense={addExpenseHandler} />
             <Expenses expenses={expenses} />
           </div>

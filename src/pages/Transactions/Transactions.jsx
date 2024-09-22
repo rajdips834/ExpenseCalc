@@ -33,6 +33,8 @@ export default function Transactions() {
 
   return (
     <>
+      <CurrencyConverter />
+
       <div>
         {" "}
         <h1 className="container__transactions">Transactions</h1>
@@ -54,8 +56,6 @@ export default function Transactions() {
           <ExpensesList items={data.income} income={true} />
         </div>
       </div>
-
-      <CurrencyConverter />
     </>
   );
 }
