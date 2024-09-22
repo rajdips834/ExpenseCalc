@@ -29,6 +29,9 @@ const LoginPage = () => {
           localStorage.setItem("isLoggedIn", true);
           navigate("/dashboard");
           fetchExpenses(dispatch);
+          const token = userData.user.getIdToken().then((token) => {
+            localStorage.setItem("authToken", token);
+          });
         })
         .catch((error) => {
           // const errorCode = error.code;

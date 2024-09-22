@@ -66,6 +66,7 @@ export const EMAILSIGNIN = async (email, password) => {
     email,
     password
   );
+
   return result;
 };
 

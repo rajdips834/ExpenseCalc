@@ -23,6 +23,8 @@ const Navbar = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("expenses");
     localStorage.removeItem("incomes");
+    localStorage.removeItem("savings");
+    localStorage.removeItem("authToken");
     firebaseLogout();
     dispatch(logout());
     toast.success("Logged out successfully");
