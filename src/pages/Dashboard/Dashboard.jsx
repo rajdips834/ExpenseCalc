@@ -35,6 +35,11 @@ export default function Dashboard() {
       return [expense, ...prevExpenses];
     });
   };
+  const addIncomeHandler = (income) => {
+    setExpenses((prevExpenses) => {
+      return [income, ...prevExpenses];
+    });
+  };
 
   return (
     isLoading && (
@@ -45,7 +50,7 @@ export default function Dashboard() {
             <Expenses expenses={expenses} />
           </div>
           <div>
-            <NewExpense income={true} onAddExpense={addExpenseHandler} />
+            <NewExpense income={true} onAddExpense={addIncomeHandler} />
             <Expenses income={true} />
           </div>
         </div>

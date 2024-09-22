@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 const Expenses = (props) => {
   const [filteredYear, setFilteredYear] = useState("2024");
-  // Use useSelector once
   const allExpenses = useSelector((state) => ({
     income: state.incomes.incomes,
     expenses: state.expenses.expenses,

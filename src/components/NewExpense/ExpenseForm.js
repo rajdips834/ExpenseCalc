@@ -4,6 +4,7 @@ import "./ExpenseForm.css";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addExpense } from "../../redux/slices/expensesSlice";
+import { addIncomes } from "../../redux/slices/incomesSlice";
 
 const ExpenseForm = (props) => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const ExpenseForm = (props) => {
       ? firebaseAddIncome(data)
           .then(() => {
             toast.success("Income Added Successfully");
-            dispatch(addExpense(data));
+            dispatch(addIncomes(data));
           })
           .catch((error) => {
             toast.error(`Error adding income: ${error.message}`);
