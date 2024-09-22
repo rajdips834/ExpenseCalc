@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Paper, TextField, Button, Typography } from "@mui/material";
 import { Grid2 } from "@mui/material";
 import { toast } from "react-toastify";
@@ -14,8 +14,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const EmailAuth = () => {
-    console.log(email, password);
     if (email.length > 0 && password.length > 0) {
       toast
         .promise(EMAILSIGNIN(email, password), {
